@@ -1,7 +1,5 @@
-
-Day1    23-Jan-2021
+Day1    30-May-2021
 ====================
-
 JDK 8
 =====
 https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html#license-lightbox
@@ -88,25 +86,26 @@ Banking
 
 Develop a Banking application
 
-Write a Java application to perform standard CRUD operations on Customer and Account Domain Objects
+Write a Java application to perform standard CRUD operations on Customer and Account Domain Objects using Map as DataSource.
 
-Account:
-        accno
-		name 
-        balance
-        doc
-        type
-        
-        
+    
+     
 Customer
         customerId
         name
         pan
         mobile         
-        account
         address
         dob
         
+
+Account:
+        accno
+	name 
+        balance
+        doc
+        type
+
         
          
 CustomerMainApp
@@ -114,34 +113,43 @@ CustomerMainApp
                            CustomerDao
                                         MapCustomerServiceImpl
                                                                 CustomerMap
-                                                                   
+               
+
+
+                                                    
 
 
 
-Day2  :24-Jan-2021
+Day2  :5-Jun-2021
 ======
 IOC -Inversion of Control -Don't call me I  will call you
 DI  -It is a mechanism of initializing the dependencies 
 
-      1.setter injection
-      2.constructor injection      
+      1.setter injection      :
+      2.constructor injection :     
       
       
+We have to explain Spring Container about the spring beans(Java Classes) via XML file or annotations
+
+
 Step 1: create a Java Project and add spring jar files to class path
 
 
-Step 2: create a spring container
+Step 2: create a spring container (controls life-cyles of bean)
 
 1.Core Container -BeanFactory based
+
 2.Advanced Container -ApplicationContext
+
 3.Web Container -WebApplicationContext
+
 
 
                              BeanFactory (I)
                                  |
                                  |XMLBeanFactory (C) :Lazy Initialization
                                  |
-                            ApplicationContext(I)   :Eager Initialization
+                            ApplicationContext(I)    :Eager Initialization
                                  |
 ClasspatApplicationXMLContext (C)|    AnnotationConfigApplicationContext (C)
                                  |
@@ -151,7 +159,9 @@ ClasspatApplicationXMLContext (C)|    AnnotationConfigApplicationContext (C)
 
 //core container
 
+
 Lazy Initiialization
+
 XmlBeanFactory c=new XmlBeanFactory(new ClassPathResource("beans.xml"));
          
          
@@ -206,4 +216,71 @@ prototype -Stateful Application
 
 request  -web
 session  -web
+
+
+Auto-wiring
+============
+Wiring - It's a mechanisam of associating the beans with each other
+Auto-wiring -It's a mechanisam of delegating the responsisbilty of associating the beans with each other to the spring container
+
+auto-wire="no|byType|byName|constructor"
+
+
+Annotation Based configuration
+===============================
+                                           @Component
+
+              @Controller                  @Service                   @Reposiotry
+
+
+
+@Configuration   => <beans.xml>
+@PostConstruct   => init-method
+@PreDestroy      =>destroy-method
+@Autowire        =>autwire (byType)
+@Qualifier       => byName 
+   can be applied to constructor/setter/intreface
+
+
+
+<bean    init-method=""   destroy-method=""/>    @PostConstruct    @PreDestroy
+
+<bean    autowire=""/>    
+
+@Autowire  =>default byType
+
+
+
+To enable annotation based bean registration put below tag
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
