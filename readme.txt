@@ -250,8 +250,7 @@ Annotation Based configuration
 @Autowire  =>default byType
 
 
-
-To enable annotation based bean registration put below tag
+Note :To enable annotation based bean registration put below tag
 
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -262,16 +261,158 @@ To enable annotation based bean registration put below tag
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd">
 
+<context:component-scan   package="com"/>
 
 </beans>
 
 
+Day3
+====
+6-Jun-2021
+==========
+
+1.Tomcat Download :https://apachemirror.wuchna.com/tomcat/tomcat-9/v9.0.46/bin/apache-tomcat-9.0.46.zip
+
+2.Add Spring jar file to Tomcat lib directory
+
+3.Create a dynamic web project with web.xml
+
+4.Register a DispatcherServlet in web.xml as below
+
+<servlet>
+<servlet-name>spring</servlet-name>
+<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+<load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>spring</servlet-name>
+<url-pattern>/spring/*</url-pattern>
+</servlet-mapping>
+
+5.By default DispatcherServlet will load the file with name (DispatcherServletName-serlvet.xml) 
+  So create a file spring-servlet.xml
+
+6.Create a Root Web application Context
+   by default it will search applicationContext.xml
+  
+
+<listener>
+<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
+
+<context-param>
+<param-name>contextConfigLocation</param-name>
+<param-value>/WEB-INF/applicationContext.xml</param-value>
+</context-param>
+
+1.RootWebApplication created first
 
 
 
 
 
 
+
+
+
+Spring Web MVC
+==============
+Develop a Spring Web MVC application to build RESTful Web API to perform CRUD Operations
+
+
+URI                      METHOD                           OPERATION
+============================================================== 
+
+/customers               GET                               GET ALL CUSTOMERS
+/customers/1             GET                               GET CUSTOMER BY ID
+/customers/1             PUT                               UPDATE CUSTOMER BY ID
+/customers/1             DELETE                            DELETE CUSTOMER BY ID
+/customers               POST                              ADD CUSTOMER 
+
+
+HTTP status codes
+======================
+200    :   OK
+201    :   Created
+500    :   INTERNAL SERVER ERROR
+404    :   NOT FOUND
+204    :   NO CONTENT
+401    :   INVALID CREDENTAILS
+403    :   FORBIDDEN
+405    :   METHOD NOT ALLOWED
+
+
+MVC (                 Model                   View                   Controller)
+================================================================================
+JSP Model-1          Java Bean                JSP                     JSP
+JSP Model-2          Java Bean                JSP                     Servlet    (Struts1.x,JSF 1.x,2.x ,Spring Web MVC)
+JSP Model-3          Java Bean                JSP                     Filter     (Struts2.x)
+JSP Model-4          Java Bean                JSP                     Tag Handler
+
+
+Spring Web MVC follows MVC2 /JSP Model2
+==============================================   
+
+url      method      mapping                                                         new style                                         =========================================================================================================
+/hello   GET         @RequestMapping(value="/hello",method=RequestMethod.GET)        @GetMapping("/hello")
+/hello   POST        @RequestMapping(value="/hello",method=RequestMethod.POST)       @PostMapping("/hello")
+/hello   DELETE      @RequestMapping(value="/hello",method=RequestMethod.DELETE)     @DeleteMapping("/hello")
+/hello   PUT         @RequestMapping(value="/hello",method=RequestMethod.PUT)        @PutMapping("/hello")
+/hello   PATCH       @RequestMapping(value="/hello",method=RequestMethod.PATCH)      @PatchMapping("/hello")
+
+
+
+
+
+@RestController   =>  @Controller +  @ResponseBody 
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:annotation-driven/>
+</beans>
+ 
+
+
+
+Java To JSON    : @ResponseBody
+
+JSON to Java    : @RequestBody
+================================
+
+
+@ResponseBody  => Server to Client => Java Object to JSON or XML  => Accept       = application/json 
+
+@RequestBody  => Client to Server =>  JSON or XML Java Object to  => Content-Type = application/json
+
+
+@ResponseBody  => Server to Client => Java Object to JSON or XML  => Accept       = application/json 
+
+@RequestBody  => Client to Server =>  JSON or XML Java Object to  => Content-Type = application/json
+
+
+For Message Conversion :
+
+Step 1:  add below tag in spring-config file
+=======
+<mvc:annotation-driven/>
+
+Step 2:  Add below jars in class path
+=======
+jackson-core-2.9.8
+jackson-annotations-2.9.0.jar
+jackson-databind-2.9.8.jar
 
 
 
