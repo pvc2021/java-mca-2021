@@ -411,7 +411,7 @@ Step 1:  add below tag in spring-config file
 Step 2:  Add below jars in class path
 =======
 jackson-core-2.9.8
-jackson-annotations-2.9.0.jar
+jackson-annotations-2.9.8.jar
 jackson-databind-2.9.8.jar
 
 
