@@ -355,7 +355,10 @@ JSP Model-4          Java Bean                JSP                     Tag Handle
 Spring Web MVC follows MVC2 /JSP Model2
 ==============================================   
 
-url      method      mapping                                                         new style                                         =========================================================================================================
+ url      method      mapping                                                         new style                                         =========================================================================================================
+
+
+
 /hello   GET         @RequestMapping(value="/hello",method=RequestMethod.GET)        @GetMapping("/hello")
 /hello   POST        @RequestMapping(value="/hello",method=RequestMethod.POST)       @PostMapping("/hello")
 /hello   DELETE      @RequestMapping(value="/hello",method=RequestMethod.DELETE)     @DeleteMapping("/hello")
@@ -416,8 +419,218 @@ jackson-databind-2.9.8.jar
 
 
 
+12-June-2021
+=============
+CustomerRestController
+              CustomerService
+                           CustomerDao
+                                        MapCustomerServiceImpl
+                                                                CustomerMap
 
 
+
+CustomerSpringController
+              CustomerService
+                           CustomerDao
+                                        MySQLCustomerServiceImpl
+                                                                  
+                                                     JdbcTemplate
+                                                              DataSource
+                                                                   driverClassName
+                                                                   username
+                                                                   password
+                                                                   url
+
+
+
+JdbcTemplate
+===============
+ 
+GET                   :  query()
+
+UPDATE,INSERT,DELETE  :  update()
+
+
+
+
+create database company;
+  
+use company;
+  
+create table customers(
+  customerId int primary key,
+  name text,
+  pan text,
+  mobile text,
+  address text,
+  dob date
+  );
+
+insert into customers values(1111,'Sachin patil','skxnd9834f','8737726736','Pune','1982-01-01');
+insert into customers values(2222,'Sumit patil','abcnd9834f','6637726736','Mumbai','1982-01-01');
+
+select * from customers;
+
+
+Day5      13-June-2021
+========================
+What is Spring Boot?
+=====================
+1.Spring Boot provides a good platform for Java developers to develop a stand-alone and 
+production-grade spring application that you can just run.
+2.You can get started with minimum configurations without the need for an entire Spring configuration setup.
+
+Spring Boot offers the following advantages to its developers -
+=================================================================
+1.Easy to understand and develop spring applications
+2.Increases productivity
+3.Reduces the development time
+
+Goals
+======
+1.To avoid complex XML configuration in Spring
+2.To develop a production ready Spring applications in an easier way
+3.To reduce the development time and run the application independently
+4.Offer an easier way of getting started with the application
+
+Why Spring Boot?
+================
+
+You can choose Spring Boot because of the features and benefits it offers as given here -
+
+1.It provides a flexible way to configure Java Beans, XML configurations, and Database Transactions.
+
+2.It provides a powerful batch processing and manages REST endpoints.
+
+3.In Spring Boot, everything is auto configured; no manual configurations are needed.
+
+4.It offers annotation-based spring application
+
+5.Eases dependency management (POM)
+
+6.It includes Embedded Servlet Container
+
+
+How does it work?
+=>Spring Boot automatically configures your application based on the dependencies you have added to the project by using
+ @EnableAutoConfiguration annotation. 
+ 
+ For example, if MySQL database is on your classpath, but you have not configured any database connection, 
+ then Spring Boot auto-configures an in-memory database.
+
+=>The entry point of the spring boot application is the class contains @SpringBootApplication annotation 
+   and the main method.
+
+Spring Boot automatically scans all the components included in the project by using @ComponentScan annotation.
+
+
+
+Spring Boot Starters
+=====================
+=>Handling dependency management is a difficult task for big projects. 
+=>Spring Boot resolves this problem by providing a set of dependencies for developers convenience.
+=>For example, if you want to use Spring and JPA for database access, 
+    it is sufficient if you include spring-boot-starter-data-jpa dependency in your project.
+
+Note that all Spring Boot starters follow the same naming pattern spring-boot-starter- *, 
+  where * indicates that it is a type of the application.
+
+Examples
+Look at the following Spring Boot starters explained below for a better understanding -
+
+1.Spring Boot Starter Actuator dependency is used to monitor and manage your application. Its code is shown below -
+
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+
+2.Spring Boot Starter Security dependency is used for Spring Security. Its code is shown below -
+
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+
+3.Spring Boot Starter web dependency is used to write a Rest Endpoints. Its code is shown below -
+
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+      
+4.Spring Boot Starter Test dependency is used for writing Test cases. Its code is shown below -
+
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-test</artifactId>
+</dependency>      
+      
+      
+Auto Configuration
+====================
+
+
+https://start.spring.io/
+
+
+
+
+Spring Web WEB
+==================
+Build web, including RESTful, applications using Spring MVC. Uses Apache Tomcat as the default embedded container.
+
+Spring Boot DevTools DEVELOPER TOOLS
+=====================================
+Provides fast application restarts, LiveReload, and configurations for enhanced development experience.
+
+Spring Boot Actuator OPS
+========================
+Supports built in (or custom) endpoints that let you monitor and manage your application - 
+such as application health, metrics, sessions, etc.
+
+Spring Security SECURITY
+=========================
+Highly customizable authentication and access-control framework for Spring applications.
+
+Spring Data JPA SQL
+===================
+Persist data in SQL stores with Java Persistence API using Spring Data and Hibernate.
+
+CRUDRepository
+     |
+PagingAndSortingRespistory
+     |
+JPAReposiotry
+
+
+
+
+Spring Data MongoDB NOSQL
+=========================
+Store data in flexible, JSON-like documents, meaning fields can vary from document to document and data structure can be changed over time.
+
+
+Spring Security
+================
+Default username :user
+Password         :generated on console
+
+
+To customize it
+================
+
+add below properties in application.properties
+==============================================
+
+spring.security.user.name=pradeep
+spring.security.user.password==pradeep
+
+
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html
 
 
 
