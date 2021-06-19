@@ -599,9 +599,9 @@ Spring Data JPA SQL
 ===================
 Persist data in SQL stores with Java Persistence API using Spring Data and Hibernate.
 
-CRUDRepository
-     |
-PagingAndSortingRespistory
+CRUDRepository                CRUDRepository
+     |                              |
+PagingAndSortingRespistory    MongoRepository
      |
 JPAReposiotry
 
@@ -629,8 +629,197 @@ spring.security.user.name=pradeep
 spring.security.user.password==pradeep
 
 
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html
+
+
+
+
+19-June-2021
+=============
+1.Spring Security
+2.Hibernate Relations
+3.Spring MongoRepository  (Mongo DB download :https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-4.4.6-signed.msi)
+
+
+
+
+
+
+
+
+
+Spring Security
+================
+Default username :user
+Password         :generated on console
+
+
+To customize it
+================
+
+add below properties in application.properties
+==============================================
+
+spring.security.user.name=pradeep
+spring.security.user.password=pradeep
+
+
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html
+
+
+
+
+JAAS
+====
+Java Authentication and Authorization Service
+
+Authentication
+================
+1.BASIC  (Before Spring Boot 2.x)
+2.DIGEST
+3.FORM BASED (From Spring Boot 2.x)  : Endpoints login,logout
+
+
+
+Authorization (role)
+====================
+
+
+
+To Customize default JAAS
+
+
+We should write a configuration class by extending WebSecurityConfigureerAdapter and override configure methods.
+
+
+
+
+@Configuration
+public class BankConfig  extends WebSecurityConfigurerAdapter{
+
+	@Autowired
+	private DataSource dataSource;
+	
+	
+	public BankConfig() {
+	System.out.println("==========BankConfig created=================");
+	}
+	
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		System.out.println("==========BankConfig created  AuthManagerBuilder=================");
+		//super.configure(auth);
+	
+		
+		/*
+		 * auth.inMemoryAuthentication()
+		 * .withUser("RAM").password("{noop}RAM").roles("ADMIN").and()
+		 * .withUser("RAHIM").password("{noop}RAHIM").roles("STUDENT").and()
+		 * .withUser("DAVID").password("{noop}DAVID").roles("TEACHER");
+		 * 
+		 * 
+		 */
+		
+		auth.jdbcAuthentication()
+		    .passwordEncoder(new BCryptPasswordEncoder())
+		    .dataSource(dataSource);
+		
+	}
+	
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		System.out.println("==========BankConfig created  HttpSecurity=================");
+		//super.configure(http);  Default is Form Based
+		
+		
+		http.authorizeRequests()
+		.antMatchers("/rest/*").permitAll()
+		.antMatchers("/rest/*").denyAll()
+		.antMatchers("/spring/*").hasRole("ADMIN")
+		.antMatchers("/spring/welcome","/spring/today").hasRole("STUDENT")
+		.antMatchers("/spring/hello","/spring/greet").hasAnyRole("ADMIN","TEACHER")
+	
+		
+		    .anyRequest()
+		    .authenticated()
+		    .and()
+		    .formLogin();//  Form Based
+		    //.httpBasic();// Basic Auth
+		
+		
+		
+	}
+	
+	
+	
+}
+
+
+MongoDB details
+=================
+
+https://www.tutorialspoint.com/mongodb/mongodb_overview.htm
+
+Mongo DB                   RDBMS
+==================================          
+Database                  Database
+
+Collection                Table        Class                    
+
+Document                  Row          Object
+
+Id                        Primary Key
+
+Embeded documents         Joins
+
+
+
+To start Mongo DB Server
+========================
+
+
+
+Create a folder in c drive :  c:\data\db
+
+C:\Program Files\MongoDB\Server\3.4\bin>mongod   <enter>
+
+
+To start Mongo DB Client
+========================
+
+C:\Program Files\MongoDB\Server\3.4\bin>mongo <enter>
+
+
+
+
+
+
+
+
+
+
+20-June-2021
+=============
+1.Spring AOP
+2.Spring Boot Google Oauth security 
+2.Hibernate Relations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
