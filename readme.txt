@@ -796,16 +796,26 @@ C:\Program Files\MongoDB\Server\3.4\bin>mongo <enter>
 
 
 
-
-
-
-
-
 20-June-2021
 =============
 1.Spring AOP
-2.Spring Boot Google Oauth security 
-2.Hibernate Relations
+2.Spring Tx Management
+3.Spring Boot Google Oauth security 
+4.Hibernate Relations
+
+
+
+Spring 
+
+Core
+Context
+Web
+Dao
+AOP
+
+
+
+@Transactional  =>Class / Method
 
 
 
@@ -814,12 +824,176 @@ C:\Program Files\MongoDB\Server\3.4\bin>mongo <enter>
 
 
 
+AOP -Aspect Oriented Programming
+=================================
+
+
+Spring AOP
+==========
+AOP  -Aspect Oriented Programming
+=====
+
+Concern :Piece Of Code
+
+                           Functional          Nonfunctional
+
+Business Logic  =          Core Concern    +   Cross Cutting Concern
+
+                            withdraw                  security
+                            deposit                   logging 
+                            transfer                  scalabilty tx mgmt
+
+
+AOP is used to separate CCC from CC and attach CCC dynamically in a CC.
+
+Can We Separate CCC from CC using OOP? Yes but it is a static approach.
+ 
+
+
+
+Target  :It is a piece of code that implements Core Concern
+
+
+Advice  :It is a piece of code that implements Cross Cutting  Concern
+                what + when
+
+               before,
+               after
+               after return
+               after throwing
+               around
+
+JoinPoint  :
+                 It is a well defined point in Core Concern where u want to execute CCC
+                 Spring supports only method call as a join point
+
+Point Cut  :
+                 It is a set of one or more join points
+                 
+
+Aspect : advice +point cut  ->what +when+where
+
+
+Weaving :Mechanism of attaching CCC to CC
+
+
+
+@Component
+@Aspect
+public class Logging {
+	
+	
+	
+	public Logging() {
+	System.out.println("Logging Advice created.....");
+	}
+	
+	/**
+	 * Following is the definition for a pointcut to select * all the methods
+	 * available. So advice will be called * for all the methods.
+	 */
+	@Pointcut("execution(* com.pradeep.bank.service.CustomerService.*(..))")
+	private void selectAll() {
+	}
+
+	@Pointcut("execution(* com.pradeep.bank.service.CustomerService.findCustomer(..))")
+	private void select() {
+	}
+
+	
+	
+	/**
+	 * * This is the method which I would like to execute * before a selected
+	 * method execution.
+	 */
+	@Before("selectAll()")
+	public void beforeAdvice() {
+		System.err.println("Going to setup customer profile.");
+	}
+
+	/**
+	 * * This is the method which I would like to execute * after a selected
+	 * method execution.
+	 */
+	@After("selectAll()")
+	public void afterAdvice() {
+		System.err.println("Customer profile has been setup.");
+	}
+
+	
+	
+	/**
+	 * * This is the method which I would like to execute * when any method
+	 * returns.
+	 */
+    @AfterReturning(pointcut = "selectAll()", returning = "retVal")
+	public void afterReturningAdvice(Object retVal) {
+		System.err.println("Customer afterReturning:" + retVal);
+	}
+
+    
+	/**
+	 * * This is the method which I would like to execute * if there is an
+	 * exception raised by any method.
+	 */
+	@AfterThrowing(pointcut = "selectAll()", throwing = "ex")
+	public void AfterThrowingAdvice(Exception ex) {
+		System.err.println("Customer There has been an exception: " + ex);
+	}
+	
+
+    @Around("select()")
+	public Object aroundAdvice(ProceedingJoinPoint joinPoint)throws Throwable{
+	
+    	Object returnVal=null;
+    	System.err.println("In around Advice .....");
+    	
+    	
+    	try {
+    		System.err.println("Before Proceed :");
+        	returnVal=joinPoint.proceed();
+        	System.err.println("After  Proceed :"+returnVal);
+        	 Customer value=(Customer)returnVal;
+        	
+        	 value.setName(value.getName().toUpperCase());   
+		    
+    	
+    	} catch (Throwable e) {
+             e.printStackTrace();
+         System.out.println("around Advice  exception wrapped.....");
+             
+    		}
+    	System.out.println("around Advice  over.....");
+          return returnVal;
+    }
+    }
 
 
 
 
+Spring Boot Google Oauth Sign In
+===================================
+A OAuth2 Server, sometimes also referred to as an OAuth 2.0 Server, OAuth Server, Authorization Server, is a software system that implements network protocol flows that allow a client software application to act on behalf of a user.
+
+Cross site request forgery (CSRF), also known as XSRF, Sea Surf or Session Riding, is an attack vector that tricks a web browser into executing an unwanted action in an application to which a user is logged in. A successful CSRF attack can be devastating for both the business and user.
+
+Cross-site request forgery, also known as one-click attack or session riding and abbreviated as CSRF or XSRF, is a type of malicious exploit of a website where unauthorized commands are submitted from a user that the web application trusts.
 
 
+
+https://www.tutorialspoint.com/spring_boot/spring_boot_google_oauth2_sign_in.htm
+
+
+
+
+Hiberntae
+=========
+
+
+
+Case Study
+===========
+https://o7planning.org/10683/create-a-shopping-cart-web-application-with-spring-boot-hibernate
 
 
 
