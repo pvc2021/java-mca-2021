@@ -432,7 +432,7 @@ CustomerRestController
 CustomerSpringController
               CustomerService
                            CustomerDao
-                                        MySQLCustomerServiceImpl
+                                        MySQLCustomerDaoImpl
                                                                   
                                                      JdbcTemplate
                                                               DataSource
@@ -452,11 +452,10 @@ UPDATE,INSERT,DELETE  :  update()
 
 
 
-
+SQL Script
+============
 create database company;
-  
 use company;
-  
 create table customers(
   customerId int primary key,
   name text,
@@ -467,7 +466,9 @@ create table customers(
   );
 
 insert into customers values(1111,'Sachin patil','skxnd9834f','8737726736','Pune','1982-01-01');
-insert into customers values(2222,'Sumit patil','abcnd9834f','6637726736','Mumbai','1982-01-01');
+insert into customers values(2222,'Sumit patil','abcnd9834f','6637726736','Mumbai','1985-01-01');
+insert into customers values(3333,'Sunil patil','abcnd9834f','6637726736','Bangalore','1989-01-01');
+
 
 select * from customers;
 
@@ -986,8 +987,47 @@ https://www.tutorialspoint.com/spring_boot/spring_boot_google_oauth2_sign_in.htm
 
 
 
-Hiberntae
-=========
+Hiberntae relationship
+======================
+
+@Entity
+@Table(name="pc_customer")
+public class Customer{
+
+@Id
+@Column(name="customerId")
+private int id;
+private String name;
+
+}
+
+
+1.One  to One    => Employee => EmployeeAddress
+2.One  to many   => Group    => Stories
+3.Many to One    => Stories  => Group
+2.Many to many   => Book     =>  Author
+
+
+
+
+JPA is ORM specfication
+=======================
+Hibernate
+toplink
+ibatis
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
